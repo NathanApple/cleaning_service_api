@@ -20,3 +20,10 @@ $router->get('/', function () use ($router) {
 // Auth
 $router->post('login', 'LoginController@login');
 $router->post('register', 'LoginController@register');
+
+
+$router->group(['prefix'=>'task'], function() use ($router){
+    $router->group(['middleware' => 'auth'], function() use ($router){
+        $router->post('create', 'TaskController@create');
+    });
+});
