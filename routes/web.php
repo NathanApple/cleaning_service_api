@@ -23,7 +23,7 @@ $router->post('register', 'LoginController@register');
 
 
 $router->group(['prefix'=>'task'], function() use ($router){
-    $router->group(['middleware' => 'auth'], function() use ($router){
+    $router->group(['middleware' => 'supervisor'], function() use ($router){
         $router->post('create', 'TaskController@create');
     });
 });

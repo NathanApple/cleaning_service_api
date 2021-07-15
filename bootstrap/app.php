@@ -78,6 +78,8 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'supervisor' => App\Http\Middleware\IsSupervisor::class,
+    'admin' => App\Http\Middleware\IsAdmin::class,
 ]);
 
 /*
