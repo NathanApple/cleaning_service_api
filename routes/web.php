@@ -37,6 +37,11 @@ $router->group(['prefix'=>'supervisor'], function() use ($router){
         });
 
 
+        $router->group(['prefix'=>'assign'], function() use ($router){
+            $router->post('create', 'UserTaskController@create');
+        });
+
+
     });
 
 });
