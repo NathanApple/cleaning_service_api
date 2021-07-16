@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChecklistsTable extends Migration
+class CreateChecklistReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateChecklistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('checklists', function (Blueprint $table) {
+        Schema::create('checklist_reports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('zoning_detail_id');
-            $table->string('checklist_title');
+            $table->unsignedBigInteger('zoning_detail_report_id')->nullable();
+            $table->unsignedBigInteger('checklist_id')->nullable();
+            $table->boolean('checklist_status');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateChecklistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('checklists');
+        Schema::dropIfExists('checklist_reports');
     }
 }
