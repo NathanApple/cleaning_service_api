@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserTask extends Model
 {
     //
+    protected $attributes = [
+        'user_task_status' => 'Belum dikerjakan',
+    ];
+    
     use SoftDeletes;
+
 }

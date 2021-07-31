@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('role');
             $table->bigInteger('point');
+            $table->string('work_location');
+            $table->boolean('today_point');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

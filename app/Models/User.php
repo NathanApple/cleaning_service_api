@@ -15,6 +15,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    // TODO : Fix migration sesuai worker absen
+
     /**
      * The attributes that are mass assignable.
      *
