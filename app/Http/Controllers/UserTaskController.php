@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Checklist;
+use App\Models\ChecklistReport;
 use App\Models\Task;
 use App\Models\UserTask;
 use App\Models\Zoning;
+use App\Models\ZoningDetail;
+use App\Models\ZoningDetailReport;
+use App\Models\ZoningReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,26 +21,55 @@ class UserTaskController extends Controller
         $datetime_start = $request->datetime_start;
         $datetime_end = $request->datetime_end;
 
-        // $userTask = new UserTask();
-        // $userTask->user_id = $user_id;
-        // $userTask->task_id = $task_id;
-        // $userTask->datetime_start = $datetime_start;
-        // $userTask->datetime_end = $datetime_end;
+        $userTask = new UserTask();
+        $userTask->user_id = $user_id;
+        $userTask->task_id = $task_id;
+        $userTask->datetime_start = $datetime_start;
+        $userTask->datetime_end = $datetime_end;
 
-        // $userTask->save();
+        $userTask->save();
 
         // TODO Mass Assign to user task from all the task etc etc
 
         // Mass Assign Zoning Reports
         $zoning_data = Zoning::all()->where('task_id', $task_id);
 
-        $zoning = array();
+        $zoning= [];
+        $zoning_detail = [];
+        $checklist = [];
+        // Zoning Detail, 
+        // TODO : CREATE ZONING REPORT First
+        // I need to get zoning report, zoning detail report id, after i input to database
+        $userTaskId = $userTask['id'];
 
-        foreach ($zoning_data as $data) {
-            
+        foreach ($zoning_data as $zd) {
+            $zoning_report = ZoningReport::create(['user_task_id' => $userTaskId,
+                                    'zoning_id' => $zd['id']]);
+
+            $zoning_report_data = ZoningDetail::get()->where('zoning_id', $zd['id']);
+            // $zoning_report_data = DB::table('zoning_details')
+            //                                     ->where('zoning_id', $zd['id'])
+            //                                     ->get();
+
+            foreach ($zoning_report_data as $zrd) {
+
+                $zoning_detail_report = ZoningDetailReport::create(['zoning_report_id' => $zoning_report['id'], 
+                'zoning_detail_id' => $zrd['id']]);
+
+                // For checklist
+                $checklist_data = Checklist::get()->where('zoning_detail_id', $zrd['id']);
+                
+                foreach ($checklist_data as $cd) {
+
+                    $checklist_report = ChecklistReport::create(["zoning_detail_report_id" => $zoning_detail_report['id'],
+                    'checklist_id' => $cd['id']]);
+                }
+                
+            }
+
         }
 
-        return response()->json(compact('task'));
+        return response()->json(compact('zoning_report','zoning_detail_report', 'checklist_report'));
         // return response()->json($userTask);
     }
 }
