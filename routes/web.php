@@ -45,3 +45,12 @@ $router->group(['prefix'=>'supervisor'], function() use ($router){
     });
 
 });
+
+$router->group(['prefix'=>'worker'], function() use ($router){
+    $router->group(['middleware' => 'auth'], function() use ($router){
+
+        $router->group(['prefix'=>'task'], function() use ($router){
+            $router->get('view', 'UserTaskController@viewTodayTask');
+        });
+    });
+});

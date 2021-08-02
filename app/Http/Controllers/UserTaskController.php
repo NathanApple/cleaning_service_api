@@ -10,7 +10,9 @@ use App\Models\Zoning;
 use App\Models\ZoningDetail;
 use App\Models\ZoningDetailReport;
 use App\Models\ZoningReport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserTaskController extends Controller
@@ -37,9 +39,6 @@ class UserTaskController extends Controller
         $zoning= [];
         $zoning_detail = [];
         $checklist = [];
-        // Zoning Detail, 
-        // TODO : CREATE ZONING REPORT First
-        // I need to get zoning report, zoning detail report id, after i input to database
         $userTaskId = $userTask['id'];
 
         $zoning_counter = 0;
@@ -78,5 +77,18 @@ class UserTaskController extends Controller
                             "detail_report_inserted" => $zoning_detail_counter,
                             "checklist_inserted" => $checklist_counter], 201);
         // return response()->json($userTask);
+    }
+
+    public function viewTodayTask(){
+        $user_id = Auth::user()->id;
+
+        $user_tasks = DB::table('user_tasks')
+            ->whereDate('datetime_start', Carbon::today())
+            ->where('user_id', $user_id)
+            ->get();
+        // $user_tasks = UserTask::get()->whereDate('datetime_start', Carbon::today())
+        // ->where('user_id', $user_id);
+
+        return compact('user_tasks');
     }
 }

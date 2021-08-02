@@ -12,6 +12,5 @@ class UserTask extends Model
         'user_task_status' => 'Belum dikerjakan',
     ];
     
-    use SoftDeletes;
 
 }
