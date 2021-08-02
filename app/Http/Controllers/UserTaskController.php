@@ -42,7 +42,11 @@ class UserTaskController extends Controller
         // I need to get zoning report, zoning detail report id, after i input to database
         $userTaskId = $userTask['id'];
 
+        $zoning_counter = 0;
+        $zoning_detail_counter = 0;
+        $checklist_counter = 0;
         foreach ($zoning_data as $zd) {
+            $zoning_counter++;
             $zoning_report = ZoningReport::create(['user_task_id' => $userTaskId,
                                     'zoning_id' => $zd['id']]);
 
@@ -52,7 +56,7 @@ class UserTaskController extends Controller
             //                                     ->get();
 
             foreach ($zoning_report_data as $zrd) {
-
+                $zoning_detail_counter++;
                 $zoning_detail_report = ZoningDetailReport::create(['zoning_report_id' => $zoning_report['id'], 
                 'zoning_detail_id' => $zrd['id']]);
 
@@ -60,7 +64,7 @@ class UserTaskController extends Controller
                 $checklist_data = Checklist::get()->where('zoning_detail_id', $zrd['id']);
                 
                 foreach ($checklist_data as $cd) {
-
+                    $checklist_counter++;
                     $checklist_report = ChecklistReport::create(["zoning_detail_report_id" => $zoning_detail_report['id'],
                     'checklist_id' => $cd['id']]);
                 }
@@ -69,7 +73,10 @@ class UserTaskController extends Controller
 
         }
 
-        return response()->json(compact('zoning_report','zoning_detail_report', 'checklist_report'));
+        return response()->json(["message" => "Success",
+                            "zoning_report_inserted" => $zoning_counter,
+                            "detail_report_inserted" => $zoning_detail_counter,
+                            "checklist_inserted" => $checklist_counter], 201);
         // return response()->json($userTask);
     }
 }
