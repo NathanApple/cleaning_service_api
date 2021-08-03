@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Zoning extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     //
     public function task(){
         return $this->belongsTo(Task::class, 'task_id');
     }
 
-    use SoftDeletes;
+    
+
 }
