@@ -42,6 +42,10 @@ $router->group(['prefix'=>'supervisor'], function() use ($router){
 
         $router->group(['prefix'=>'detail'], function() use ($router){
             $router->post('create', 'ZoningDetailController@create');
+
+            $router->group(['prefix'=>'instant'], function() use ($router){
+                $router->post('create', 'ZoningDetailController@instantCreate');
+            });
         });
 
 
