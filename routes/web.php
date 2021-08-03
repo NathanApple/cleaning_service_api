@@ -25,11 +25,19 @@ $router->group(['prefix'=>'supervisor'], function() use ($router){
     $router->group(['middleware' => 'supervisor'], function() use ($router){
         
         $router->group(['prefix'=>'task'], function() use ($router){
+            
             $router->post('create', 'TaskController@create');
+            
+
+
         });
     
         $router->group(['prefix'=>'zoning'], function() use ($router){
             $router->post('create', 'ZoningController@create');
+
+            $router->group(['prefix'=>'instant'], function() use ($router){
+                $router->post('create', 'ZoningController@instantCreate');
+            });
         });
 
         $router->group(['prefix'=>'detail'], function() use ($router){
