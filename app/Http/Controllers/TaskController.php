@@ -16,5 +16,27 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
+    public function view(Request $request){
+        // $user_tasks = DB::table('user_tasks')
+
+        // ->whereDate('datetime_start', Carbon::today())
+        // ->where('user_id', $user_id)
+        // ->get();
+    
+        $query = Task::query();
+
+        if (isset($request->task_category)){
+            $query->where('task_category', $request->task_category);
+        }
+
+        if (isset($request->task_location)) {
+            $query->where('task_location', 'like', "%$request->task_location%");
+        }
+
+        $task = $query->get();
+
+        return response()->json(compact('task'));
+    }
+
     
 }

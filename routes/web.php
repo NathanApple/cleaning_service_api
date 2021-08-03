@@ -27,6 +27,7 @@ $router->group(['prefix'=>'supervisor'], function() use ($router){
         $router->group(['prefix'=>'task'], function() use ($router){
             
             $router->post('create', 'TaskController@create');
+            $router->get('view', 'TaskController@view');
             
 
 

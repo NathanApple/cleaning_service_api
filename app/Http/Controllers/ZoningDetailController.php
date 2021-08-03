@@ -19,10 +19,6 @@ class ZoningDetailController extends Controller
     }
 
     public function instantCreate(Request $request){
-
-        // $new_request = $request->all();
-        // $request->zoning_name = ($request->zoning_name ?: $request->detail_title);
-
         $new_request = array_merge($request->all(), ['zoning_name' => ($request->zoning_name ?: $request->detail_title)]);
         $instantData = $this->instantCreateZoning($new_request);
 
@@ -34,23 +30,7 @@ class ZoningDetailController extends Controller
         $detail = $this->createDetail($new_request);
         $task = $instantData['task'];
         $zoning = $instantData['zoning'];
-        return response()->json(compact('task', 'zoning', 'detail'));
-        // $detail = $this-
-
-
-        // $new_request = [
-        //     'task_location' => ($request->task_location ?: $request->zoning_name),
-        //     'task_code' => ($request->task_code ?: ''),
-        //     'task_category' => $request->task_category,
-        // ];
-        // $task = $this->createTask($new_request);
-
-        // $new_request = [
-        //     'task_id' => $task['id'],
-        //     'zoning_name' => $request->zoning_name,
-        // ];
-
-        // $zoning = $this->createZoning($new_request);
+        return response()->json(compact('task', 'zoning', 'detail'), 201);
     }
 
     

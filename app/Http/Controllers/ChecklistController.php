@@ -13,6 +13,6 @@ class ChecklistController extends Controller
         $checklist->checklist_title = $request->checklist_title;
 
         $checklist->save();
-        return response()->json($checklist);
+        return response()->json($checklist, 201);
     }
 }
