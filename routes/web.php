@@ -66,5 +66,10 @@ $router->group(['prefix'=>'worker'], function() use ($router){
         $router->group(['prefix'=>'task'], function() use ($router){
             $router->get('view', 'UserTaskController@viewTodayTask');
         });
+
+        $router->group(['prefix'=>'zoning'], function() use ($router){
+            $router->get('view', 'ZoningReportController@view');
+        });
+
     });
 });

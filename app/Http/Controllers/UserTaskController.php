@@ -83,12 +83,24 @@ class UserTaskController extends Controller
         $user_id = Auth::user()->id;
 
         $user_tasks = DB::table('user_tasks')
+            ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
             ->whereDate('datetime_start', Carbon::today())
             ->where('user_id', $user_id)
             ->get();
         // $user_tasks = UserTask::get()->whereDate('datetime_start', Carbon::today())
         // ->where('user_id', $user_id);
 
+        $user_tasks->transform(function($i) {
+            if ($i->task_code != "") {
+                $i->using_code = true;
+                // set($i->using_code );
+            } else {
+                $i->using_code = false;
+            }
+
+            unset($i->task_code);
+            return $i;
+        });
         return compact('user_tasks');
     }
 }
