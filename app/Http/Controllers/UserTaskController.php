@@ -83,6 +83,7 @@ class UserTaskController extends Controller
         $user_id = Auth::user()->id;
 
         $user_tasks = DB::table('user_tasks')
+            ->select('*','user_tasks.id as user_task_id')
             ->join('tasks', 'tasks.id', '=', 'user_tasks.task_id')
             ->whereDate('datetime_start', Carbon::today())
             ->where('user_id', $user_id)
